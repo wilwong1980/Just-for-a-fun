@@ -44,6 +44,15 @@ def index():
                            player_money=session["player-money"])
 
 
+@app.route("/test")
+def test():
+    session["player-id"] = str(uuid.uuid4())
+    session["player-name"] = get_random_name()
+    session["player-money"] = 1000
+    return render_template('test.html')
+
+
+
 @app.route("/test-login")
 def test_login():
     session["player-id"] = str(uuid.uuid4())
