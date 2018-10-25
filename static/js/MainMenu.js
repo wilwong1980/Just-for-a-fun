@@ -74,7 +74,7 @@ MyGame.MainMenu.prototype = {
         l1x.repeat(Number.MAX_VALUE, 3000);
         // 灯光精灵2
         var light2 = this.add.sprite(350, 78, 'light2');
-        console.log(light2.position);
+
         // 灯光精灵2 淡入淡出并移动
         light2.alpha = 0;
         var l2 = this.add.tween(light2).to({alpha: 1}, 4000, Phaser.Easing.Linear.None, false, 0, 0, true);
@@ -97,24 +97,36 @@ MyGame.MainMenu.prototype = {
         s.repeat(Number.MAX_VALUE, 1000);
 
         // 酒类精灵
-        var wine0 = this.add.sprite(70, 490, 'wine0');
-        // var wine1 = this.add.sprite(70, 483, 'wine1');
-        // var wine2 = this.add.sprite(70, 535, 'wine2');
+        var wine0 = this.add.sprite(-200, 490, 'wine0');
+        var wine1 = this.add.sprite(-200, 483, 'wine1');
+        var wine2 = this.add.sprite(-200, 535, 'wine2');
+
+        // winArray
+         this.wineGroup = [wine0, wine1, wine2];
+        // 酒类动画计数器
+        this.wineCount = [0];
+        // fadeIn 移动
+        this.wineIn = {x: 70};
+        // fadeOut 移动
+        this.wineOut = {x: -200};
+        // 定时器
+        this.wineTimer = this.time.create(false);
+        // 定时任务
+        this.wineTimer.add(3000, this.fadeIn, this, this.wineGroup,this.wineCount, this.wineIn, this.wineOut, this.wineTimer, 10000);
+        // 定时器启动
+        this.wineTimer.start();
+
 
         // 餐巾精灵
         var napkin = this.add.sprite(545, 893, 'napkin');
 
-        // chip组
+        // chip组1 4个组合
         var chipGroupRed1 = this.add.group();
         var chipGroupGreen1 = this.add.group();
         var chipGroupBlue1 = this.add.group();
         var chipGroupBlack1 = this.add.group();
 
-        var chipGroupRed2 = this.add.group();
-        var chipGroupGreen2 = this.add.group();
-        var chipGroupBlue2 = this.add.group();
-        var chipGroupBlack2 = this.add.group();
-
+        // 向chip组1添加成员
         chipGroupRed1.create(630, 615, 'chipsRed');
         chipGroupRed1.create(675, 570, 'chipsRed');
         chipGroupRed1.create(695, 635, 'chipSMred');
@@ -135,25 +147,57 @@ MyGame.MainMenu.prototype = {
         chipGroupBlack1.create(695, 635, 'chipSMblack');
         chipGroupBlack1.create(735, 600, 'chipSMblack');
 
+        // chip组1准备定时事件及动画
+        // array 成员
         this.chipsG1 = [chipGroupRed1, chipGroupGreen1, chipGroupBlack1, chipGroupBlue1];
+        // 当前动画计数器
         this.chipsG1Count = [0];
-        var chipsG1In = {x:-93};
-        var chipsG1Out = {x: 650};
+        // fadeIn 移动
+        this.chipsG1In = {x: -93};
+        // fadeOut 移动
+        this.chipsG1Out = {x: 650};
+        // 定时器
         this.chipTimer1 = this.time.create(false);
-        this.chipTimer1.add(3000, this.chipIn, this, chipGroupRed1, chipsG1In);
-
+        // 定时任务
+        this.chipTimer1.add(2000, this.fadeIn, this, this.chipsG1,this.chipsG1Count, this.chipsG1In, this.chipsG1Out, this.chipTimer1, 7000);
+        // 定时器启动
         this.chipTimer1.start();
 
+        // chip组2 3个组合
+        var chipGroupRed2 = this.add.group();
+        var chipGroupGreen2 = this.add.group();
+        var chipGroupBlue2 = this.add.group();
+        var chipGroupBlack2 = this.add.group();
 
-        // var cgr1In = this.add.tween(chipGroupRed1).to({x: -200}, 1000, Phaser.Easing.Back.InOut, true, 0, 0);
-        // var cgr1Out = this.add.tween(chipGroupRed1).to({x: 650}, 1000, Phaser.Easing.Back.InOut, false, 0);
-        // cgr1In.onRepeat.add(runout, this);
+        // 向chip组2增加成员
+        chipGroupRed2.create(-110, 675, 'chipsRed');
+        chipGroupRed2.create(-55, 705, 'chipSMred');
 
-        // function runout() {
-        //     cgr1Out.start();
-        // }
-        //
-        // cgr1In.repeat(Number.MAX_VALUE, 5000);
+        chipGroupGreen2.create(-110, 675, 'chipsGreen');
+        chipGroupGreen2.create(-55, 705, 'chipSMgreen');
+
+        chipGroupBlue2.create(-110, 675, 'chipsBlue');
+        chipGroupBlue2.create(-55, 705, 'chipSMblue');
+
+        chipGroupBlack2.create(-110, 675, 'chipsBlack');
+        chipGroupBlack2.create(-55, 705, 'chipSMblack');
+
+        // array 成员
+        this.chipsG2 = [chipGroupBlue2, chipGroupBlack2, chipGroupRed2, chipGroupGreen2];
+        // this.chipsG2 =[chipGroupRed2];
+        // // chip组2 动画计数器
+        this.chipsG2Count = [0];
+        // // fadeIn 移动
+        this.chipsG2In = {x: 100};
+        // // fadeOut 移动
+        this.chipsG2Out = {x: -110};
+        // // 定时器
+        this.chipTimer2 = this.time.create(false);
+        // // 定时任务
+        this.chipTimer2.add(1000, this.fadeIn, this, this.chipsG2, this.chipsG2Count, this.chipsG2In, this.chipsG2Out, this.chipTimer2, 3000);
+        // // 定时器启动
+        this.chipTimer2.start();
+
 
     },
 
@@ -173,22 +217,24 @@ MyGame.MainMenu.prototype = {
     //     this.debug.scale(0,0,'#62978a');
     // },
 
-    chipIn: function (chipGroup, to) {
-        console.log(to);
-        var tween = this.add.tween(chipGroup).to({x: -93}, 1000, Phaser.Easing.Back.InOut, true, 0, 0);
-        this.chipTimer1.add(3000, this.chipOut, this, chipGroup);
+    fadeIn: function (target, count, In, Out, timer, timeContinue) {
+        // console.log('fadeIn');
+        this.add.tween(target[count[0]]).to(In, 1000, Phaser.Easing.Back.InOut, true, 0, 0);
+        timer.add(timeContinue, this.fadeOut, this, target, count, In, Out, timer, timeContinue);
     },
 
-    chipOut: function (chipGroup) {
-        var tween = this.add.tween(chipGroup).to({x: 650}, 1000, Phaser.Easing.Back.InOut, true, 0, 0);
-        this.chipTimer1.add(2000, this.chipChange, this, this.chipsG1Count, this.chipsG1);
+    fadeOut: function (target, count, In, Out, timer, timeContinue) {
+        // console.log('fadeOut');
+        this.add.tween(target[count]).to(Out, 1000, Phaser.Easing.Back.InOut, true, 0, 0);
+        timer.add(1000, this.fadeChange, this, target, count, In, Out, timer, timeContinue);
     },
-    
-    chipChange: function (count, chipsGroup) {
+
+    fadeChange: function (target, count, In, Out, timer, timeContinue) {
+        // console.log('fadeChange');
         count[0]++;
-        if (count[0]+1 > chipsGroup.length){
+        if (count[0] + 1 > target.length) {
             count[0] = 0
         }
-        this.chipTimer1.add(3000, this.chipIn, this, chipsGroup[count]);
+        timer.add(1000, this.fadeIn, this, target, count, In, Out, timer, timeContinue);
     }
 };
