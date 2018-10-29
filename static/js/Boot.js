@@ -13,6 +13,8 @@ MyGame.Boot.prototype = {
         console.log('Boot state');
         this.game.stage.backgroundColor = 0x2a2a2a;
         this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+        // this.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        this.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         // this.scale.setScreenSize = true;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
@@ -24,7 +26,10 @@ MyGame.Boot.prototype = {
         //physics system for movement
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        this.state.start('Preload');
+
+        // this.state.start('Preload');
+
+        this.input.onTap.add(this.gofull, this)
     },
 
     update: function () {
@@ -38,5 +43,10 @@ MyGame.Boot.prototype = {
         this.game.debug.lineHeight = 30;
         this.debug.device(420, 200, '#62978a');
         this.debug.scale(0,0,'#62978a');
+    },
+
+    gofull: function () {
+        // this.scale.startFullScreen(false);
+        this.state.start('Preload');
     }
 };

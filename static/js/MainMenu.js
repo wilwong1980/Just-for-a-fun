@@ -4,12 +4,30 @@ MyGame.MainMenu = function () {
 };
 
 MyGame.MainMenu.prototype = {
+    init: function(){
+        // 背景音乐
+        this.bgMusic = this.add.audio('sndLoop');
+        this.bgMusic.loopFull();
+        // console.log('Music play:' +this.bgMusic.isPlaying);
+        if(this.bgMusic.isPlaying === false){
+                this.bgMusic.play();
+                // console.log('In play music');
+            }
+    },
+
     preload: function () {
 
     },
 
     create: function () {
         console.log('MainMenu state');
+        // 背景音乐
+        // var bgMusic = this.add.audio('sndLoop');
+        // bgMusic.play();
+
+        // 按钮音乐
+        this.buttonAudio = this.add.audio('sndClick');
+
         // 总背景
         this.add.sprite(0, 80, 'bg0');
         // mask0
@@ -207,6 +225,9 @@ MyGame.MainMenu.prototype = {
 
     startGame: function () {
         this.state.start('Game');
+        this.bgMusic.stop();
+        this.buttonAudio.play();
+
     },
 
     // render: function () {

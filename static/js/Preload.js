@@ -48,6 +48,34 @@ MyGame.Preload.prototype = {
         this.load.image('chipBigBlue','/static/images/chipBigBlue.png');
         this.load.image('chipBigGreen','/static/images/chipBigGreen.png');
         this.load.image('chipBigRed','/static/images/chipBigRed.png');
+        this.load.image('gameTablePurple','/static/images/gameTablePurple.png');
+        this.load.image('gameTableGreen','/static/images/gameTableGreen.png');
+        this.load.image('gameTableRed','/static/images/gameTableRed.png');
+        this.load.image('gameBackGround','/static/images/gameBackGround.png');
+        this.load.image('pokersBackGreen','/static/images/pokersBackGreen.png');
+        this.load.image('pokersBackPurple','/static/images/pokersBackPurple.png');
+        this.load.image('pokersBackRed','/static/images/pokersBackRed.png');
+        this.load.image('gameTableCenter','/static/images/gameTableCenter.png');
+        this.load.image('dices','/static/images/dices.png');
+        this.load.image('pokerBackGreen','/static/images/pokerBackGreen.png');
+        this.load.image('pokerBackPurple','/static/images/pokerBackPurple.png');
+        this.load.audio('sndLoop', '/static/audio/sndLoop.ogg');
+        this.load.audio('sndClick', '/static/audio/sndClick.ogg');
+        this.load.audio('sndCard1', '/static/audio/sndCard1.ogg');
+        this.load.audio('sndCard2', '/static/audio/sndCard2.ogg');
+        this.load.audio('sndCard3', '/static/audio/sndCard3.ogg');
+        this.load.audio('sndChip1', '/static/audio/sndChip1.ogg');
+        this.load.audio('sndChip2', '/static/audio/sndChip2.ogg');
+        this.load.audio('sndChip3', '/static/audio/sndChip3.ogg');
+        this.load.audio('sndChip4', '/static/audio/sndChip4.ogg');
+        this.load.audio('sndChip5', '/static/audio/sndChip5.ogg');
+        this.load.audio('sndChip6', '/static/audio/sndChip6.ogg');
+
+        this.load.atlasJSONHash('walk', '/static/images/walk.png', '/static/images/walk.json');
+        this.load.atlasJSONHash('Cards', '/static/images/Cards.png', '/static/images/Cards.json');
+        // this.load.atlasJSONHash('cardsBack', '/static/images/cardsBack.png', '/static/images/cardsBack.json');
+
+        // this.load.atlasJSONHash('cityscene', '/static/images/cityscene.png', '/static/images/cityscene.json');
     },
 
     create: function () {
