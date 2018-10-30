@@ -94,28 +94,41 @@ MyGame.Game.prototype = {
         this.groupTurn = this.add.group();
         this.groupRiver = this.add.group();
         this.groupChip = this.add.group();
+        this.groupChipNum = this.add.group();
+
 
         // chip
-        this.chipGreen = {};
-        this.chipBlue = {};
-        this.chipRed = {};
-        this.chipBlack = {};
+        // this.chipGreen = this.groupChip.create(160, 760, 'chipSMgreen');
+        // this.chipBlue = this.groupChip.create(260, 690, 'chipSMblue');
+        // this.chipRed = this.groupChip.create(360, 760, 'chipSMred');
+        // this.chipBlack = this.groupChip.create(460, 690, 'chipSMblack');
+        //
+        // for (let i = 0; i < this.groupChip.length; i++) {
+        //     let chip = this.groupChip.children[i];
+        //     chip.anchor.setTo(0.5);
+        // }
 
-        this.chipGreen.chip = this.groupChip.create(160, 760, 'chipNoGreen');
-        this.chipGreen.chip.data.number = 5;
-        this.chipBlue.chip = this.groupChip.create(260, 690, 'chipNoBlue');
-        this.chipBlue.chip.data.number = 25;
-        this.chipRed.chip = this.groupChip.create(360, 760, 'chipNoRed');
-        this.chipRed.chip.data.number = 50;
-        this.chipBlack.chip = this.groupChip.create(460, 690, 'chipNoBlack');
-        this.chipBlack.chip.data.number = 100;
+        // chipNum
+        this.chipGreenNum = {};
+        this.chipBlueNum = {};
+        this.chipRedNum = {};
+        this.chipBlackNum = {};
+
+        this.chipGreenNum.chip = this.groupChipNum.create(160, 760, 'chipNoGreen');
+        this.chipGreenNum.chip.data = {number: 5, color: 'chipSMgreen'};
+        this.chipBlueNum.chip = this.groupChipNum.create(260, 690, 'chipNoBlue');
+        this.chipBlueNum.chip.data = {number: 25, color: 'chipSMblue'};
+        this.chipRedNum.chip = this.groupChipNum.create(360, 760, 'chipNoRed');
+        this.chipRedNum.chip.data = {number: 50, color: 'chipSMred'};
+        this.chipBlackNum.chip = this.groupChipNum.create(460, 690, 'chipNoBlack');
+        this.chipBlackNum.chip.data = {number: 100, color: 'chipSMblack'};
 
         // function alterThis(param) {
         //     console.log(param);
         // }
 
-        for (var i = 0; i < this.groupChip.length; i++) {
-            var chip = this.groupChip.children[i];
+        for (var i = 0; i < this.groupChipNum.length; i++) {
+            let chip = this.groupChipNum.children[i];
             // console.log(chip.data);
             chip.scale = {x: 0.8, y: 0.8};
             chip.anchor.setTo(0.5);
@@ -126,12 +139,13 @@ MyGame.Game.prototype = {
             chip.events.onInputDown.add(this.chipPlace, this, chip);
         }
 
+
         //potBar
-        this.potBar =  this.add.sprite(this.game.width/2, 390, 'accountBar');
+        this.potBar = this.add.sprite(this.game.width / 2, 390, 'accountBar');
         this.potBar.anchor.setTo(0.5);
         console.log(this.potBar.width);
         console.log(this.potBar.height);
-        this.potMoney = this.add.text(this.game.width/2, 390, 0, {
+        this.potMoney = this.add.text(this.game.width / 2, 390, 0, {
             // font: "30px Arial",
             fill: "#ffffff"
         });
@@ -241,9 +255,14 @@ MyGame.Game.prototype = {
     },
 
     chipPlace: function (chip) {
+        // console.log(chip.data);
         var chipAudio = this.chipSound.randomElement();
         chipAudio.play();
         this.potMoney.text = parseInt(this.potMoney.text) + parseInt(chip.data.number);
-        console.log(this.potMoney.text);
+        // console.log(this.potMoney.text);
+        let subchip = this.groupChip.create(chip.x, chip.y, chip.data.color);
+        subchip.anchor.setTo(0.5);
+        let tween = this.add.tween(subchip).to({x: getRandomNumber(270,335), y: getRandomNumber(470,530)}, 400, Phaser.Easing.Back.Out);
+        tween.start();
     }
 };
