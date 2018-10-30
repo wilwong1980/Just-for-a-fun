@@ -17,6 +17,7 @@ MyGame.Game.prototype = {
             this.add.audio('sndChip6'),
         ];
         this.chipSound.shuffle();
+        this.buttonAudio = this.add.audio('sndClick');
     },
 
     create: function () {
@@ -90,11 +91,13 @@ MyGame.Game.prototype = {
         // this.input.onTap.add(this.goMenue, this);
 
         // group
-        this.groupFlop = this.add.group();
-        this.groupTurn = this.add.group();
         this.groupRiver = this.add.group();
+        this.groupTurn = this.add.group();
+        this.groupFlop = this.add.group();
+
         this.groupChip = this.add.group();
         this.groupChipNum = this.add.group();
+        this.groupButton = this.add.group();
 
 
         // chip
@@ -143,8 +146,8 @@ MyGame.Game.prototype = {
         //potBar
         this.potBar = this.add.sprite(this.game.width / 2, 390, 'accountBar');
         this.potBar.anchor.setTo(0.5);
-        console.log(this.potBar.width);
-        console.log(this.potBar.height);
+        // console.log(this.potBar.width);
+        // console.log(this.potBar.height);
         this.potMoney = this.add.text(this.game.width / 2, 390, 0, {
             // font: "30px Arial",
             fill: "#ffffff"
@@ -154,14 +157,69 @@ MyGame.Game.prototype = {
 
 
         // flop card
-        // this.flop1 = {};
-        // this.flop1.card = this.groupFlop.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.timerFlop = this.time.create(false);
+        this.counterFlop = [0];
+        this.flop1 = this.groupFlop.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.flop1.moveTo = {x: 120, y: 500};
+
+        this.flop2 = this.groupFlop.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.flop2.moveTo = {x: 220, y: 500};
+
+        this.flop3 = this.groupFlop.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.flop3.moveTo = {x: 320, y: 500};
+
+        this.flopShowStatus = false;
+
+        for (let i = 0; i < this.groupFlop.length; i++) {
+            let poker = this.groupFlop.children[i];
+            // console.log(poker);
+            poker.anchor.setTo(0.5);
+            poker.scale = {x: 0.5, y: 0.5};
+            poker.timeContinue = 50;
+        }
         // this.flop1.card.anchor.setTo(0.5);
         // this.flop1.card.scale = {x: 0.5, y: 0.5};
         // this.flop1.timecontinue = 50;
-        // this.flop1.moveTo = {x: 80, y: 500};
 
-        // this.flopPlace(this.flop1);
+
+        // hitButton
+        this.buttonRiverPlace = this.groupButton.create(100, 1080, 'hit');
+        this.buttonRiverShow = this.groupButton.create(250, 1080, 'hit');
+
+        this.buttonTurnPlace = this.groupButton.create(100, 1010, 'hit');
+        this.buttonTurnShow = this.groupButton.create(250, 1010, 'hit');
+
+        this.buttonFlopShow = this.groupButton.create(400, 1010, 'hit');
+        this.buttonFlopPlace = this.groupButton.create(550, 1010, 'hit');
+
+        // console.log(this.buttonCheck.tint);
+        this.buttonFlopPlace.tint = 0xc06d76;
+        this.buttonFlopPlace.events.onInputDown.add(this.buttonHit, this);
+        this.buttonFlopShow.events.onInputDown.add(this.buttonCallHit, this);
+        this.buttonTurnPlace.events.onInputDown.add(this.buttonTurnPlaceHit, this);
+        this.buttonTurnShow.events.onInputDown.add(this.buttonTurnShowHit, this);
+
+        this.buttonRiverPlace.events.onInputDown.add(this.buttonRiverPlaceHit, this);
+        this.buttonRiverShow.events.onInputDown.add(this.buttonRiverShowHit, this);
+
+
+        for (let i = 0; i < this.groupButton.length; i++) {
+            let button = this.groupButton.children[i];
+            button.anchor.setTo(0.5);
+            button.scale = {x: 0.6, y: 0.6};
+            button.inputEnabled = false;
+        }
+
+        this.turn = this.groupTurn.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.turn.anchor.setTo(0.5);
+        this.turn.scale = {x: 0.5, y: 0.5};
+        this.turn.moveTo = {x: 420, y: 500};
+
+        this.river = this.groupRiver.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.river.anchor.setTo(0.5);
+        this.river.scale = {x: 0.5, y: 0.5};
+        this.river.moveTo = {x: 520, y: 500};
+
 
     },
 
@@ -197,18 +255,18 @@ MyGame.Game.prototype = {
 
     handPlace: function (hand, timer, nextCard) {
         // 抽取动画
-        var tween1 = this.add.tween(hand.card).to({x: 535, y: 310}, 200, Phaser.Easing.Linear.None);
+        let tween1 = this.add.tween(hand.card).to({x: 535, y: 310}, 200, Phaser.Easing.Linear.None);
         // 下发动画
-        var tween2 = this.add.tween(hand.card).to({x: this.game.width / 2, y: 900}, 500, Phaser.Easing.Linear.None);
+        let tween2 = this.add.tween(hand.card).to({x: this.game.width / 2, y: 900}, 500, Phaser.Easing.Linear.None);
         // 左平移
-        var tween3 = this.add.tween(hand.card).to({
+        let tween3 = this.add.tween(hand.card).to({
             x: this.game.width / 2 + hand.moveTo,
             y: 900
         }, 80, Phaser.Easing.Linear.None);
         // 翻转
-        var tween4 = this.add.tween(hand.card.scale).to({x: 0, y: 1.2}, 200 / 2, Phaser.Easing.Linear.None);
+        let tween4 = this.add.tween(hand.card.scale).to({x: 0, y: 1.2}, 200 / 2, Phaser.Easing.Linear.None);
         // 展示
-        var cardAudio = this.cardSound.randomElement();
+        let cardAudio = this.cardSound.randomElement();
         cardAudio.play();
         tween1.onComplete.add(function () {
             tween2.onComplete.add(function () {
@@ -238,20 +296,77 @@ MyGame.Game.prototype = {
         tween1.start();
     },
 
-    flopPlace: function (poker, timer, next) {
-        var cardAudio = this.cardSound.randomElement();
+    flopPlace: function (target, count, timer) {
+        // console.log(this.cardSound);
+        let cardAudio = this.cardSound.randomElement();
+        // console.log(count);
+
+        if (count[0] < 3) {
+            cardAudio.play();
+            let card = target.children[count[0]];
+            // 抽取动画
+            var tween1 = this.add.tween(card).to({x: 535, y: 310}, 200, Phaser.Easing.Linear.None);
+            // 下发动画
+            var tween2 = this.add.tween(card).to(card.moveTo, 500, Phaser.Easing.Linear.None);
+            tween1.onComplete.add(function () {
+                tween2.start();
+            });
+            tween1.start();
+            count[0]++;
+            timer.add(1000, this.flopPlace, this, target, count, timer);
+            timer.start();
+        }
+    },
+
+    flopShow: function (target, count, timer) {
+        let cardAudio = this.cardSound.randomElement();
+        if (!this.flopShowStatus) {
+            count[0] = 0;
+            this.flopShowStatus = true;
+        }
+        if (count[0] < 3) {
+            cardAudio.play();
+            let card = target.children[count[0]];
+            // 翻转牌
+            let tween1 = this.add.tween(card.scale).to({x: 0, y: 1.2}, 200, Phaser.Easing.Linear.None);
+            // 展示牌
+            let tween2 = this.add.tween(card.scale).to({x: 0.7, y: 0.7}, 200 / 2, Phaser.Easing.Linear.None);
+            tween1.onComplete.add(function () {
+                card.frameName = this.result2.shift();
+                tween2.start();
+            }, this);
+            tween1.start();
+            count[0]++;
+            timer.add(1000, this.flopShow, this, target, count, timer);
+            timer.start();
+        }
+    },
+
+    cardPlace: function (card) {
+        let cardAudio = this.cardSound.randomElement();
         cardAudio.play();
         // 抽取动画
-        var tween1 = this.add.tween(poker.card).to({x: 535, y: 310}, 200, Phaser.Easing.Linear.None);
+        var tween1 = this.add.tween(card).to({x: 535, y: 310}, 200, Phaser.Easing.Linear.None);
         // 下发动画
-        var tween2 = this.add.tween(poker.card).to(poker.moveTo, 500, Phaser.Easing.Linear.None);
+        var tween2 = this.add.tween(card).to(card.moveTo, 500, Phaser.Easing.Linear.None);
         tween1.onComplete.add(function () {
             tween2.start();
-        });
+        }, this);
         tween1.start();
-        if (next) {
-            timer.add(1000, this.flopPlace, next.shift(), timer, next.shift())
-        }
+    },
+
+    cardShow: function (card) {
+        let cardAudio = this.cardSound.randomElement();
+        cardAudio.play();
+        // 翻转牌
+        let tween1 = this.add.tween(card.scale).to({x: 0, y: 1.2}, 200, Phaser.Easing.Linear.None);
+        // 展示牌
+        let tween2 = this.add.tween(card.scale).to({x: 0.7, y: 0.7}, 200 / 2, Phaser.Easing.Linear.None);
+        tween1.onComplete.add(function () {
+            card.frameName = this.result2.shift();
+            tween2.start();
+        }, this);
+        tween1.start();
     },
 
     chipPlace: function (chip) {
@@ -262,7 +377,54 @@ MyGame.Game.prototype = {
         // console.log(this.potMoney.text);
         let subchip = this.groupChip.create(chip.x, chip.y, chip.data.color);
         subchip.anchor.setTo(0.5);
-        let tween = this.add.tween(subchip).to({x: getRandomNumber(270,335), y: getRandomNumber(470,530)}, 400, Phaser.Easing.Back.Out);
+        let tween = this.add.tween(subchip).to({
+            x: getRandomNumber(270, 335),
+            y: getRandomNumber(470, 530)
+        }, 500, Phaser.Easing.Quintic.Out);
         tween.start();
-    }
+        if (this.potMoney.text > 0) {
+            for (let i = 0; i < this.groupButton.length; i++) {
+                let button = this.groupButton.children[i];
+                button.inputEnabled = true;
+                button.tint = 16777215;
+            }
+        }
+    },
+
+    buttonHit: function () {
+        this.buttonAudio.play();
+        this.groupChip.callAll('kill');
+        this.flopPlace(this.groupFlop, this.counterFlop, this.timerFlop);
+    },
+
+    buttonCallHit: function () {
+        this.buttonAudio.play();
+        this.groupChip.callAll('kill');
+        this.flopShow(this.groupFlop, this.counterFlop, this.timerFlop);
+    },
+
+    buttonTurnPlaceHit: function () {
+        this.buttonAudio.play();
+        this.groupChip.callAll('kill');
+        this.cardPlace(this.turn);
+    },
+
+    buttonTurnShowHit: function () {
+        this.buttonAudio.play();
+        this.groupChip.callAll('kill');
+        this.cardShow(this.turn);
+    },
+
+    buttonRiverPlaceHit: function () {
+        this.buttonAudio.play();
+        this.groupChip.callAll('kill');
+        this.cardPlace(this.river);
+    },
+
+    buttonRiverShowHit: function () {
+        this.buttonAudio.play();
+        this.groupChip.callAll('kill');
+        this.cardShow(this.river);
+    },
+
 };

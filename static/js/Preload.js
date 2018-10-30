@@ -59,6 +59,8 @@ MyGame.Preload.prototype = {
         this.load.image('dices','/static/images/dices.png');
         this.load.image('pokerBackGreen','/static/images/pokerBackGreen.png');
         this.load.image('pokerBackPurple','/static/images/pokerBackPurple.png');
+        this.load.image('hit','/static/images/hit1.png');
+
         this.load.audio('sndLoop', '/static/audio/sndLoop.ogg');
         this.load.audio('sndClick', '/static/audio/sndClick.ogg');
         this.load.audio('sndCard1', '/static/audio/sndCard1.ogg');
