@@ -6,6 +6,7 @@ MyGame.Game = function () {
 MyGame.Game.prototype = {
     preload: function () {
         this.load.json('Cards', '/static/images/Cards.json');
+        this.load.json('Avater', '/static/images/avater.json');
         this.cardSound = [this.add.audio('sndCard1'), this.add.audio('sndCard2'), this.add.audio('sndCard3')];
         this.cardSound.shuffle();
         this.chipSound = [

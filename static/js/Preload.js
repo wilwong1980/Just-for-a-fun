@@ -75,6 +75,7 @@ MyGame.Preload.prototype = {
 
         this.load.atlasJSONHash('walk', '/static/images/walk.png', '/static/images/walk.json');
         this.load.atlasJSONHash('Cards', '/static/images/Cards.png', '/static/images/Cards.json');
+        this.load.atlasJSONHash('Avater', '/static/images/avater.png', '/static/images/avater.json');
         // this.load.atlasJSONHash('cardsBack', '/static/images/cardsBack.png', '/static/images/cardsBack.json');
 
         // this.load.atlasJSONHash('cityscene', '/static/images/cityscene.png', '/static/images/cityscene.json');
