@@ -6,7 +6,7 @@ MyGame.Game = function () {
 MyGame.Game.prototype = {
     preload: function () {
         this.load.json('Cards', '/static/images/Cards.json');
-        this.load.json('Avater', '/static/images/avater.json');
+        this.load.json('Avatar', '/static/images/avatar.json');
         this.cardSound = [this.add.audio('sndCard1'), this.add.audio('sndCard2'), this.add.audio('sndCard3')];
         this.cardSound.shuffle();
         this.chipSound = [
@@ -23,15 +23,15 @@ MyGame.Game.prototype = {
 
     create: function () {
         console.log('Game state');
-        //顶部背景
-        this.add.sprite(0, 70, 'gameBackGround');
-        // 左侧窗帘
-        this.add.sprite(0, 70, 'curtain');
-        // 右侧窗帘 左侧窗帘反转
-        var curtain2 = this.add.sprite(644, 70, 'curtain');
-        curtain2.width = -curtain2.width;
-        //底部背景牌桌
-        this.add.sprite(0, 275, 'gameTableGreen');
+        // //顶部背景
+        // this.add.sprite(0, 70, 'gameBackGround');
+        // // 左侧窗帘
+        // this.add.sprite(0, 70, 'curtain');
+        // // 右侧窗帘 左侧窗帘反转
+        // var curtain2 = this.add.sprite(644, 70, 'curtain');
+        // curtain2.width = -curtain2.width;
+        // //底部背景牌桌
+        // this.add.sprite(0, 275, 'gameTableGreen');
         // // 公牌河牌区
         // var center1 = this.add.sprite(this.game.width / 2, 450, 'gameTableCenter');
         // center1.anchor.setTo(0.5);
@@ -39,6 +39,11 @@ MyGame.Game.prototype = {
         // var center2 = this.add.sprite(this.game.width / 2, 800, 'gameTableCenter');
         // center2.anchor.setTo(0.5);
         // pokers
+
+        // 背景
+
+        this.add.sprite(0,0, 'gameBackGround');
+
         var pokers = this.add.sprite(520, 327, 'pokersBackGreen');
 
         // 手牌1
@@ -99,6 +104,9 @@ MyGame.Game.prototype = {
         this.groupChip = this.add.group();
         this.groupChipNum = this.add.group();
         this.groupButton = this.add.group();
+        this.groupAvatar = this.add.group();
+        this.groupSeat = this.add.group();
+
 
 
         // chip
@@ -145,16 +153,21 @@ MyGame.Game.prototype = {
 
 
         //potBar
-        this.potBar = this.add.sprite(this.game.width / 2, 390, 'accountBar');
+        this.potBar = this.add.sprite(this.game.width / 2, 340, 'accountBar');
         this.potBar.anchor.setTo(0.5);
         // console.log(this.potBar.width);
         // console.log(this.potBar.height);
-        this.potMoney = this.add.text(this.game.width / 2, 390, 0, {
+        this.potMoney = this.add.text(this.game.width / 2, 340, 0, {
             // font: "30px Arial",
             fill: "#ffffff"
         });
+        // this.potMoney = this.add.text(this.potBar.width / 2, this.potBar.height/2, 0, {
+        //     // font: "30px Arial",
+        //     fill: "#ffffff"
+        // });
 
         this.potMoney.anchor.setTo(0.5);
+        // this.potBar.addChild(this.potMoney);
 
 
         // flop card
@@ -221,6 +234,42 @@ MyGame.Game.prototype = {
         this.river.scale = {x: 0.5, y: 0.5};
         this.river.moveTo = {x: 520, y: 500};
 
+
+
+        // this.Avater = this.groupAvater.create(0, 0, 'Avater', 'avater/avater9');
+        // this.Avater.scale ={x:0.3,y:0.3};
+        var avt = this.cache.getJSON('Avatar');
+        // console.log(avt.frames);
+        var avtRst = Object.keys(avt.frames).slice(0, 16);
+        console.log(avtRst);
+        this.avatars = avtRst.shuffle();
+        console.log(this.avatars);
+        var avtMarkPos = [{x:180,y:30},{x:350,y:30},{x:10,y:230},{x:10,y:430},{x:10,y:630},{x:520,y:230},{x:520,y:430},{x:520,y:630},{x:265,y:800}];
+        var avtPos =[{x:65, y:250},{x:65, y:550},{x:65, y:850},{x:400, y:100},{x:400, y:200},{x:400, y:300}];
+        var TempUsers = ['张三','李四','王五','赵六','老湿','叫兽','砖家','蜀黍','超人'].shuffle();
+        // for(let i=0; i < 6; i++){
+        //     let avatar = this.groupAvatar.create(avtPos[i].x, avtPos[i].y, 'Avatar', this.avatars.shift());
+        //     avatar.anchor.setTo(0.5);
+        //     // avatar.scale={x:0.2,y:0.2}
+        // }
+        for(let i =0; i<avtMarkPos.length;i++){
+            let avatarMark = this.groupSeat.create(avtMarkPos[i].x,avtMarkPos[i].y,'avatarMark');
+            let avatar = this.groupAvatar.create(avatarMark.width/2, avatarMark.height/2, 'Avatar', this.avatars.shift());
+            let userName = this.add.text(avatarMark.width/2, 20, TempUsers.shift(), {
+            font: "20px Arial",
+            fill: "#ffffff"
+        });
+            let Money = this.add.text(avatarMark.width/2, avatarMark.height - 10, 1000, {
+            font: "20px Arial",
+            fill: "#ffffff"
+        });
+            avatar.anchor.setTo(0.5);
+            userName.anchor.setTo(0.5);
+            Money.anchor.setTo(0.5);
+            avatarMark.addChild(avatar);
+            avatarMark.addChild(userName);
+            avatarMark.addChild(Money);
+        }
 
     },
 

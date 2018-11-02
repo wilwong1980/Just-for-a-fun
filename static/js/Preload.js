@@ -60,6 +60,7 @@ MyGame.Preload.prototype = {
         this.load.image('pokerBackGreen','/static/images/pokerBackGreen.png');
         this.load.image('pokerBackPurple','/static/images/pokerBackPurple.png');
         this.load.image('hit','/static/images/hit1.png');
+        this.load.image('avatarMark','/static/images/avatarMark.png');
 
         this.load.audio('sndLoop', '/static/audio/sndLoop.ogg');
         this.load.audio('sndClick', '/static/audio/sndClick.ogg');
@@ -75,7 +76,7 @@ MyGame.Preload.prototype = {
 
         this.load.atlasJSONHash('walk', '/static/images/walk.png', '/static/images/walk.json');
         this.load.atlasJSONHash('Cards', '/static/images/Cards.png', '/static/images/Cards.json');
-        this.load.atlasJSONHash('Avater', '/static/images/avater.png', '/static/images/avater.json');
+        this.load.atlasJSONHash('Avatar', '/static/images/avatar.png', '/static/images/avatar.json');
         // this.load.atlasJSONHash('cardsBack', '/static/images/cardsBack.png', '/static/images/cardsBack.json');
 
         // this.load.atlasJSONHash('cityscene', '/static/images/cityscene.png', '/static/images/cityscene.json');
