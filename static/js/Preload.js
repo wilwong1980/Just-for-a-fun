@@ -61,6 +61,9 @@ MyGame.Preload.prototype = {
         this.load.image('pokerBackPurple','/static/images/pokerBackPurple.png');
         this.load.image('hit','/static/images/hit1.png');
         this.load.image('avatarMark','/static/images/avatarMark.png');
+        this.load.image('Dealer','/static/images/chipDealer.png');
+        this.load.image('SmallBlind','/static/images/chipSmallBlind.png');
+        this.load.image('BigBlind','/static/images/chipBigBlind.png');
 
         this.load.audio('sndLoop', '/static/audio/sndLoop.ogg');
         this.load.audio('sndClick', '/static/audio/sndClick.ogg');

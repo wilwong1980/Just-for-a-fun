@@ -42,7 +42,7 @@ MyGame.Game.prototype = {
 
         // 背景
 
-        this.add.sprite(0,0, 'gameBackGround');
+        this.add.sprite(0, 0, 'gameBackGround');
 
         var pokers = this.add.sprite(520, 327, 'pokersBackGreen');
 
@@ -86,14 +86,14 @@ MyGame.Game.prototype = {
         // this.cards.inputEnabled = true;
         // this.cards.events.onInputDown.add(this.filpTween, this, 'filpHollow');
 
-
+        // load json card info
         var cards = this.cache.getJSON('Cards');
-        // console.log(cards.frames);
+        // 取52个出来
         var result = Object.keys(cards.frames).slice(0, 53);
-        // console.log(result);
+        // 洗牌
         this.result2 = result.shuffle();
-        // console.log(this.result2);
 
+        // 去菜单场景
         // this.input.onTap.add(this.goMenue, this);
 
         // group
@@ -106,7 +106,6 @@ MyGame.Game.prototype = {
         this.groupButton = this.add.group();
         this.groupAvatar = this.add.group();
         this.groupSeat = this.add.group();
-
 
 
         // chip
@@ -235,7 +234,6 @@ MyGame.Game.prototype = {
         this.river.moveTo = {x: 520, y: 500};
 
 
-
         // this.Avater = this.groupAvater.create(0, 0, 'Avater', 'avater/avater9');
         // this.Avater.scale ={x:0.3,y:0.3};
         var avt = this.cache.getJSON('Avatar');
@@ -244,32 +242,65 @@ MyGame.Game.prototype = {
         console.log(avtRst);
         this.avatars = avtRst.shuffle();
         console.log(this.avatars);
-        var avtMarkPos = [{x:180,y:30},{x:350,y:30},{x:10,y:230},{x:10,y:430},{x:10,y:630},{x:520,y:230},{x:520,y:430},{x:520,y:630},{x:265,y:800}];
-        var avtPos =[{x:65, y:250},{x:65, y:550},{x:65, y:850},{x:400, y:100},{x:400, y:200},{x:400, y:300}];
-        var TempUsers = ['张三','李四','王五','赵六','老湿','叫兽','砖家','蜀黍','超人'].shuffle();
+        var avtMarkPos = [{x: 10, y: 630}, {x: 10, y: 430}, {x: 10, y: 230}, {x: 180, y: 30}, {x: 350, y: 30},
+            {x: 520, y: 230}, {x: 520, y: 430}, {x: 520, y: 630}, {x: 265, y: 800}];
+        var avtPos = [{x: 65, y: 250}, {x: 65, y: 550}, {x: 65, y: 850}, {x: 400, y: 100}, {x: 400, y: 200},
+            {x: 400, y: 300}];
+        var TempUsers = ['张三', '李四', '王五', '赵六', '老湿', '叫兽', '砖家', '蜀黍', '超人'].shuffle();
+        var avtDealerPos=[{dx:110, dy:630},{dx:110, dy:430},{dx:110, dy:230},{dx:110, dy:630},{dx:230, dy:180},
+            {dx:500, dy:230},{dx:500, dy:430},{dx:500, dy:630},{dx:265, dy:760}];
+
         // for(let i=0; i < 6; i++){
         //     let avatar = this.groupAvatar.create(avtPos[i].x, avtPos[i].y, 'Avatar', this.avatars.shift());
         //     avatar.anchor.setTo(0.5);
         //     // avatar.scale={x:0.2,y:0.2}
         // }
-        for(let i =0; i<avtMarkPos.length;i++){
-            let avatarMark = this.groupSeat.create(avtMarkPos[i].x,avtMarkPos[i].y,'avatarMark');
-            let avatar = this.groupAvatar.create(avatarMark.width/2, avatarMark.height/2, 'Avatar', this.avatars.shift());
-            let userName = this.add.text(avatarMark.width/2, 20, TempUsers.shift(), {
-            font: "20px Arial",
-            fill: "#ffffff"
-        });
-            let Money = this.add.text(avatarMark.width/2, avatarMark.height - 10, 1000, {
-            font: "20px Arial",
-            fill: "#ffffff"
-        });
+        let DealerIndex = parseInt(getRandomNumber(0, 9));
+        this.seats = [];
+        for (let i = 0; i < avtMarkPos.length; i++) {
+            let avatarMark = this.groupSeat.create(avtMarkPos[i].x, avtMarkPos[i].y, 'avatarMark');
+            let avatar = this.groupAvatar.create(avatarMark.width / 2, avatarMark.height / 2, 'Avatar', this.avatars.shift());
+
+            console.log('DealerIndex:'+DealerIndex);
+            if(i === DealerIndex) {
+                let width = 100;
+                if (i === 5 || i === 6 || i === 7) {
+                    console.log('In 5 6 7');
+                    width = -30
+                }
+                console.log(width);
+                let dealer = this.groupAvatar.create(width, 0, 'Dealer');
+                dealer.scale = {x:0.25, y:0.25};
+                avatarMark.addChild(dealer);
+            }
+            let userName = this.add.text(avatarMark.width / 2, 20, TempUsers.shift(), {
+                font: "20px Arial",
+                fill: "#ffffff"
+            });
+            let Money = this.add.text(avatarMark.width / 2, avatarMark.height - 10, i+1+'000', {
+                font: "20px Arial",
+                fill: "#ffffff"
+            });
             avatar.anchor.setTo(0.5);
             userName.anchor.setTo(0.5);
             Money.anchor.setTo(0.5);
+
             avatarMark.addChild(avatar);
             avatarMark.addChild(userName);
             avatarMark.addChild(Money);
+            this.seats.push(avatarMark);
         }
+        console.log(this.seats);
+        // this.dealer = this.add.sprite(110, 230, 'Dealer');
+        // this.smallBlind = this.add.sprite(230,200,'SmallBlind');
+        // this.bigBlind = this.add.sprite(400,200,'BigBlind');
+        // this.dealer.scale = {x: 0.25, y: 0.25};
+        // this.dealer.anchor.setTo(0.5);
+        // this.smallBlind.scale={x:0.35, y:0.35};
+        // this.smallBlind.anchor.setTo(0.5);
+        // this.bigBlind.scale={x:0.35, y:0.35};
+        // this.bigBlind.anchor.setTo(0.5);
+
 
     },
 
