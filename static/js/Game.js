@@ -107,6 +107,7 @@ MyGame.Game.prototype = {
         this.groupAvatar = this.add.group();
         this.groupSeat = this.add.group();
 
+        this.groupCardBack = this.add.group();
 
         // chip
         // this.chipGreen = this.groupChip.create(160, 760, 'chipSMgreen');
@@ -137,6 +138,16 @@ MyGame.Game.prototype = {
         // function alterThis(param) {
         //     console.log(param);
         // }
+        let cardBackY=250;
+        for(let i =0; i< 53; i++){
+            let cardBack = this.add.sprite(315, cardBackY, 'Cards', 'CardsBack/cardBack_blue2');
+            cardBack.anchor.setTo(0.5);
+            cardBack.scale = {x:0.45, y:0.45};
+            cardBackY -= 0.2;
+        }
+
+
+
 
         for (var i = 0; i < this.groupChipNum.length; i++) {
             let chip = this.groupChipNum.children[i];
@@ -239,14 +250,18 @@ MyGame.Game.prototype = {
         var avt = this.cache.getJSON('Avatar');
         // console.log(avt.frames);
         var avtRst = Object.keys(avt.frames).slice(0, 16);
-        console.log(avtRst);
+        // console.log(avtRst);
         this.avatars = avtRst.shuffle();
-        console.log(this.avatars);
+        // console.log(this.avatars);
+        // 座位mark位置
         var avtMarkPos = [{x: 10, y: 630}, {x: 10, y: 430}, {x: 10, y: 230}, {x: 180, y: 30}, {x: 350, y: 30},
             {x: 520, y: 230}, {x: 520, y: 430}, {x: 520, y: 630}, {x: 265, y: 800}];
+        // 头像位置
         var avtPos = [{x: 65, y: 250}, {x: 65, y: 550}, {x: 65, y: 850}, {x: 400, y: 100}, {x: 400, y: 200},
             {x: 400, y: 300}];
+        // 随机名字
         var TempUsers = ['张三', '李四', '王五', '赵六', '老湿', '叫兽', '砖家', '蜀黍', '超人'].shuffle();
+        // dealer位置
         var avtDealerPos=[{dx:110, dy:630},{dx:110, dy:430},{dx:110, dy:230},{dx:110, dy:630},{dx:230, dy:180},
             {dx:500, dy:230},{dx:500, dy:430},{dx:500, dy:630},{dx:265, dy:760}];
 
@@ -255,42 +270,52 @@ MyGame.Game.prototype = {
         //     avatar.anchor.setTo(0.5);
         //     // avatar.scale={x:0.2,y:0.2}
         // }
+
+        // Dealer 起始位置
         let DealerIndex = parseInt(getRandomNumber(0, 9));
+        // 座位数组
         this.seats = [];
+        // 循环创建座位
         for (let i = 0; i < avtMarkPos.length; i++) {
             let avatarMark = this.groupSeat.create(avtMarkPos[i].x, avtMarkPos[i].y, 'avatarMark');
             let avatar = this.groupAvatar.create(avatarMark.width / 2, avatarMark.height / 2, 'Avatar', this.avatars.shift());
 
-            console.log('DealerIndex:'+DealerIndex);
+            // console.log('DealerIndex:'+DealerIndex);
+            // 如果座位数和dealer 相等就创建dealer
             if(i === DealerIndex) {
                 let width = 100;
                 if (i === 5 || i === 6 || i === 7) {
-                    console.log('In 5 6 7');
+                    // console.log('In 5 6 7');
                     width = -30
                 }
-                console.log(width);
+                // console.log(width);
                 let dealer = this.groupAvatar.create(width, 0, 'Dealer');
                 dealer.scale = {x:0.25, y:0.25};
                 avatarMark.addChild(dealer);
             }
+            // 用户名
             let userName = this.add.text(avatarMark.width / 2, 20, TempUsers.shift(), {
                 font: "20px Arial",
                 fill: "#ffffff"
             });
+            // 用户钱
             let Money = this.add.text(avatarMark.width / 2, avatarMark.height - 10, i+1+'000', {
                 font: "20px Arial",
                 fill: "#ffffff"
             });
+            // 设置居中
             avatar.anchor.setTo(0.5);
             userName.anchor.setTo(0.5);
             Money.anchor.setTo(0.5);
 
+            // 想座位加入子成员
             avatarMark.addChild(avatar);
             avatarMark.addChild(userName);
             avatarMark.addChild(Money);
+            // 加入座位数组
             this.seats.push(avatarMark);
         }
-        console.log(this.seats);
+        // console.log(this.seats);
         // this.dealer = this.add.sprite(110, 230, 'Dealer');
         // this.smallBlind = this.add.sprite(230,200,'SmallBlind');
         // this.bigBlind = this.add.sprite(400,200,'BigBlind');
