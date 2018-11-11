@@ -44,7 +44,7 @@ MyGame.Game.prototype = {
 
         this.add.sprite(0, 0, 'gameBackGround');
 
-        var pokers = this.add.sprite(520, 327, 'pokersBackGreen');
+        // var pokers = this.add.sprite(520, 327, 'pokersBackGreen');
 
         // 手牌1
         var hand1 = {};
@@ -52,7 +52,7 @@ MyGame.Game.prototype = {
         hand1.card.anchor.setTo(0.5);
         hand1.card.scale = {x: 0.4, y: 0.4};
         hand1.timeContinue = 50;
-        hand1.moveTo = -50;
+        hand1.moveTo = -30;
 
         // 手牌2
         var hand2 = {};
@@ -60,7 +60,7 @@ MyGame.Game.prototype = {
         hand2.card.anchor.setTo(0.5);
         hand2.card.scale = {x: 0.4, y: 0.4};
         hand2.timeContinue = 50;
-        hand2.moveTo = 50;
+        hand2.moveTo = 35;
 
         // 手牌计数器
         this.handCardNumber = 0;
@@ -107,7 +107,7 @@ MyGame.Game.prototype = {
         this.groupAvatar = this.add.group();
         this.groupSeat = this.add.group();
 
-        this.groupCardBack = this.add.group();
+        // this.groupCardBack = this.add.group();
 
         // chip
         // this.chipGreen = this.groupChip.create(160, 760, 'chipSMgreen');
@@ -121,23 +121,21 @@ MyGame.Game.prototype = {
         // }
 
         // chipNum
-        this.chipGreenNum = {};
-        this.chipBlueNum = {};
-        this.chipRedNum = {};
-        this.chipBlackNum = {};
+        // this.chipGreenNum = {};
+        // this.chipBlueNum = {};
+        // this.chipRedNum = {};
+        // this.chipBlackNum = {};
+        //
+        // this.chipGreenNum.chip = this.groupChipNum.create(160, 760, 'chipNoGreen');
+        // this.chipGreenNum.chip.data = {number: 5, color: 'chipSMgreen'};
+        // this.chipBlueNum.chip = this.groupChipNum.create(260, 690, 'chipNoBlue');
+        // this.chipBlueNum.chip.data = {number: 25, color: 'chipSMblue'};
+        // this.chipRedNum.chip = this.groupChipNum.create(360, 760, 'chipNoRed');
+        // this.chipRedNum.chip.data = {number: 50, color: 'chipSMred'};
+        // this.chipBlackNum.chip = this.groupChipNum.create(460, 690, 'chipNoBlack');
+        // this.chipBlackNum.chip.data = {number: 100, color: 'chipSMblack'};
 
-        this.chipGreenNum.chip = this.groupChipNum.create(160, 760, 'chipNoGreen');
-        this.chipGreenNum.chip.data = {number: 5, color: 'chipSMgreen'};
-        this.chipBlueNum.chip = this.groupChipNum.create(260, 690, 'chipNoBlue');
-        this.chipBlueNum.chip.data = {number: 25, color: 'chipSMblue'};
-        this.chipRedNum.chip = this.groupChipNum.create(360, 760, 'chipNoRed');
-        this.chipRedNum.chip.data = {number: 50, color: 'chipSMred'};
-        this.chipBlackNum.chip = this.groupChipNum.create(460, 690, 'chipNoBlack');
-        this.chipBlackNum.chip.data = {number: 100, color: 'chipSMblack'};
-
-        // function alterThis(param) {
-        //     console.log(param);
-        // }
+        // 底牌
         let cardBackY=250;
         for(let i =0; i< 53; i++){
             let cardBack = this.add.sprite(315, cardBackY, 'Cards', 'CardsBack/cardBack_blue2');
@@ -147,9 +145,7 @@ MyGame.Game.prototype = {
         }
 
 
-
-
-        for (var i = 0; i < this.groupChipNum.length; i++) {
+        for (let i = 0; i < this.groupChipNum.length; i++) {
             let chip = this.groupChipNum.children[i];
             // console.log(chip.data);
             chip.scale = {x: 0.8, y: 0.8};
@@ -206,33 +202,33 @@ MyGame.Game.prototype = {
         // this.flop1.timecontinue = 50;
 
 
-        // hitButton
-        this.buttonRiverPlace = this.groupButton.create(100, 1080, 'hit');
-        this.buttonRiverShow = this.groupButton.create(250, 1080, 'hit');
-
-        this.buttonTurnPlace = this.groupButton.create(100, 1010, 'hit');
-        this.buttonTurnShow = this.groupButton.create(250, 1010, 'hit');
-
-        this.buttonFlopShow = this.groupButton.create(400, 1010, 'hit');
-        this.buttonFlopPlace = this.groupButton.create(550, 1010, 'hit');
-
-        // console.log(this.buttonCheck.tint);
-        this.buttonFlopPlace.tint = 0xc06d76;
-        this.buttonFlopPlace.events.onInputDown.add(this.buttonHit, this);
-        this.buttonFlopShow.events.onInputDown.add(this.buttonCallHit, this);
-        this.buttonTurnPlace.events.onInputDown.add(this.buttonTurnPlaceHit, this);
-        this.buttonTurnShow.events.onInputDown.add(this.buttonTurnShowHit, this);
-
-        this.buttonRiverPlace.events.onInputDown.add(this.buttonRiverPlaceHit, this);
-        this.buttonRiverShow.events.onInputDown.add(this.buttonRiverShowHit, this);
-
-
-        for (let i = 0; i < this.groupButton.length; i++) {
-            let button = this.groupButton.children[i];
-            button.anchor.setTo(0.5);
-            button.scale = {x: 0.6, y: 0.6};
-            button.inputEnabled = false;
-        }
+        // // hitButton
+        // this.buttonRiverPlace = this.groupButton.create(100, 1080, 'hit');
+        // this.buttonRiverShow = this.groupButton.create(250, 1080, 'hit');
+        //
+        // this.buttonTurnPlace = this.groupButton.create(100, 1010, 'hit');
+        // this.buttonTurnShow = this.groupButton.create(250, 1010, 'hit');
+        //
+        // this.buttonFlopShow = this.groupButton.create(400, 1010, 'hit');
+        // this.buttonFlopPlace = this.groupButton.create(550, 1010, 'hit');
+        //
+        // // console.log(this.buttonCheck.tint);
+        // this.buttonFlopPlace.tint = 0xc06d76;
+        // this.buttonFlopPlace.events.onInputDown.add(this.buttonHit, this);
+        // this.buttonFlopShow.events.onInputDown.add(this.buttonCallHit, this);
+        // this.buttonTurnPlace.events.onInputDown.add(this.buttonTurnPlaceHit, this);
+        // this.buttonTurnShow.events.onInputDown.add(this.buttonTurnShowHit, this);
+        //
+        // this.buttonRiverPlace.events.onInputDown.add(this.buttonRiverPlaceHit, this);
+        // this.buttonRiverShow.events.onInputDown.add(this.buttonRiverShowHit, this);
+        //
+        //
+        // for (let i = 0; i < this.groupButton.length; i++) {
+        //     let button = this.groupButton.children[i];
+        //     button.anchor.setTo(0.5);
+        //     button.scale = {x: 0.6, y: 0.6};
+        //     button.inputEnabled = false;
+        // }
 
         this.turn = this.groupTurn.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
         this.turn.anchor.setTo(0.5);
@@ -247,23 +243,36 @@ MyGame.Game.prototype = {
 
         // this.Avater = this.groupAvater.create(0, 0, 'Avater', 'avater/avater9');
         // this.Avater.scale ={x:0.3,y:0.3};
-        var avt = this.cache.getJSON('Avatar');
+        let avt = this.cache.getJSON('Avatar');
         // console.log(avt.frames);
-        var avtRst = Object.keys(avt.frames).slice(0, 16);
+        let avtRst = Object.keys(avt.frames).slice(0, 16);
         // console.log(avtRst);
         this.avatars = avtRst.shuffle();
         // console.log(this.avatars);
         // 座位mark位置
-        var avtMarkPos = [{x: 10, y: 630}, {x: 10, y: 430}, {x: 10, y: 230}, {x: 180, y: 30}, {x: 350, y: 30},
+        let avtMarkPos = [{x: 10, y: 630}, {x: 10, y: 430}, {x: 10, y: 230}, {x: 180, y: 30}, {x: 350, y: 30},
             {x: 520, y: 230}, {x: 520, y: 430}, {x: 520, y: 630}, {x: 265, y: 800}];
         // 头像位置
-        var avtPos = [{x: 65, y: 250}, {x: 65, y: 550}, {x: 65, y: 850}, {x: 400, y: 100}, {x: 400, y: 200},
+        let avtPos = [{x: 65, y: 250}, {x: 65, y: 550}, {x: 65, y: 850}, {x: 400, y: 100}, {x: 400, y: 200},
             {x: 400, y: 300}];
         // 随机名字
-        var TempUsers = ['张三', '李四', '王五', '赵六', '老湿', '叫兽', '砖家', '蜀黍', '超人'].shuffle();
+        let TempUsers = ['张三', '李四', '王五', '赵六', '老湿', '叫兽', '砖家', '蜀黍', '超人'].shuffle();
         // dealer位置
-        var avtDealerPos=[{dx:110, dy:630},{dx:110, dy:430},{dx:110, dy:230},{dx:110, dy:630},{dx:230, dy:180},
+        let avtDealerPos=[{dx:110, dy:630},{dx:110, dy:430},{dx:110, dy:230},{dx:110, dy:630},{dx:230, dy:180},
             {dx:500, dy:230},{dx:500, dy:430},{dx:500, dy:630},{dx:265, dy:760}];
+        // 手牌位置
+        let handPos =[{x1:110,y1:705,x2:121,y2:703.5},{x1:110,y1:505,x2:121,y2:503.5},{x1:110,y1:305,x2:121,y2:303.5},
+        {x1:280,y1:105,x2:291,y2:103.5},{x1:450,y1:105,x2:461,y2:103.5},
+        {x1:520,y1:305,x2:531,y2:303.5},{x1:520,y1:505,x2:531,y2:503.5},{x1:520,y1:705,x2:531,y2:703.5},
+        {x1:365,y1:875,x2:376,y2:873.5}];
+
+        // let handx1 = this.add.sprite(365,875,'Cards', 'CardsBack/cardBack_blue2');
+        // let handx2 = this.add.sprite(376,873.5,'Cards', 'CardsBack/cardBack_blue2');
+        // handx1.scale={x:0.2, y:0.2};
+        // handx1.anchor.setTo(0.5);
+        // handx2.scale={x:0.2, y:0.2};
+        // handx2.anchor.setTo(0.5);
+        // handx2.angle = 10;
 
         // for(let i=0; i < 6; i++){
         //     let avatar = this.groupAvatar.create(avtPos[i].x, avtPos[i].y, 'Avatar', this.avatars.shift());
@@ -272,17 +281,36 @@ MyGame.Game.prototype = {
         // }
 
         // Dealer 起始位置
-        let DealerIndex = parseInt(getRandomNumber(0, 9));
+        this.dealerIndex = parseInt(getRandomNumber(0, 9));
         // 座位数组
         this.seats = [];
         // 循环创建座位
         for (let i = 0; i < avtMarkPos.length; i++) {
+            // 头像阴影
             let avatarMark = this.groupSeat.create(avtMarkPos[i].x, avtMarkPos[i].y, 'avatarMark');
+            // 头像
             let avatar = this.groupAvatar.create(avatarMark.width / 2, avatarMark.height / 2, 'Avatar', this.avatars.shift());
+            // 手牌位置
+            let handWidth = avatarMark.width;
+            //  座位567 手牌放左侧
+            if (i === 5 || i === 6 || i === 7){
+                handWidth = avatarMark.width - 100;
+
+            }
+            // 手牌1
+            let hand1 = this.groupSeat.create(handWidth, avatarMark.height/2, 'Cards', 'CardsBack/cardBack_blue2');
+            hand1.scale={x:0.2, y:0.2};
+            hand1.anchor.setTo(0.5);
+            // 手牌2
+            let hand2 = this.groupAvatar.create(handWidth + 11, avatarMark.height/2 - 1.5, 'Cards', 'CardsBack/cardBack_blue2');
+            hand2.scale={x:0.2, y:0.2};
+            hand2.anchor.setTo(0.5);
+            // 手牌2 倾斜
+            hand2.angle = 10;
 
             // console.log('DealerIndex:'+DealerIndex);
             // 如果座位数和dealer 相等就创建dealer
-            if(i === DealerIndex) {
+            if(i === this.dealerIndex) {
                 let width = 100;
                 if (i === 5 || i === 6 || i === 7) {
                     // console.log('In 5 6 7');
@@ -312,9 +340,12 @@ MyGame.Game.prototype = {
             avatarMark.addChild(avatar);
             avatarMark.addChild(userName);
             avatarMark.addChild(Money);
+            avatarMark.addChild(hand1);
+            avatarMark.addChild(hand2);
             // 加入座位数组
             this.seats.push(avatarMark);
         }
+        console.log(this.seats);
         // console.log(this.seats);
         // this.dealer = this.add.sprite(110, 230, 'Dealer');
         // this.smallBlind = this.add.sprite(230,200,'SmallBlind');
@@ -340,34 +371,34 @@ MyGame.Game.prototype = {
         this.state.start('MainMenu');
     },
 
-    filpTween: function (param) {
-        console.log(param);
-        this.cards.isFlipping = true;
-        var tween = this.add.tween(this.cards.scale).to({x: 0, y: 1.2}, 200 / 2, Phaser.Easing.Linear.None);
-        tween.start();
-        tween.onComplete.add(this.filpBack, this, 'call filpBack')
-    },
-
-    filpBack: function (param) {
-        console.log(param);
-        this.cards.frame = this.cards.frame + 10;
-        var tween = this.add.tween(this.cards.scale).to({x: 1, y: 1}, 200 / 2, Phaser.Easing.Linear.None);
-        tween.start();
-        tween.onComplete.add(function () {
-            this.cards.isFlipping = false;
-        }, this)
-
-    },
+    // filpTween: function (param) {
+    //     console.log(param);
+    //     this.cards.isFlipping = true;
+    //     var tween = this.add.tween(this.cards.scale).to({x: 0, y: 1.2}, 200 / 2, Phaser.Easing.Linear.None);
+    //     tween.start();
+    //     tween.onComplete.add(this.filpBack, this, 'call filpBack')
+    // },
+    //
+    // filpBack: function (param) {
+    //     console.log(param);
+    //     this.cards.frame = this.cards.frame + 10;
+    //     var tween = this.add.tween(this.cards.scale).to({x: 1, y: 1}, 200 / 2, Phaser.Easing.Linear.None);
+    //     tween.start();
+    //     tween.onComplete.add(function () {
+    //         this.cards.isFlipping = false;
+    //     }, this)
+    //
+    // },
 
     handPlace: function (hand, timer, nextCard) {
         // 抽取动画
         let tween1 = this.add.tween(hand.card).to({x: 535, y: 310}, 200, Phaser.Easing.Linear.None);
         // 下发动画
-        let tween2 = this.add.tween(hand.card).to({x: this.game.width / 2, y: 900}, 500, Phaser.Easing.Linear.None);
+        let tween2 = this.add.tween(hand.card).to({x: this.game.width / 2, y: 1000}, 500, Phaser.Easing.Linear.None);
         // 左平移
         let tween3 = this.add.tween(hand.card).to({
             x: this.game.width / 2 + hand.moveTo,
-            y: 900
+            y: 1000
         }, 80, Phaser.Easing.Linear.None);
         // 翻转
         let tween4 = this.add.tween(hand.card.scale).to({x: 0, y: 1.2}, 200 / 2, Phaser.Easing.Linear.None);
@@ -380,8 +411,8 @@ MyGame.Game.prototype = {
                     tween4.onComplete.add(function () {
                         hand.card.frameName = this.result2.shift();
                         var tween5 = this.add.tween(hand.card.scale).to({
-                            x: 0.7,
-                            y: 0.7
+                            x: 0.45,
+                            y: 0.45
                         }, 200 / 2, Phaser.Easing.Linear.None);
                         tween5.start();
                         this.handCardNumber++;
