@@ -5,17 +5,18 @@ MyGame.Game = function () {
 
 MyGame.Game.prototype = {
     preload: function () {
-        this.load.json('Cards', '/static/images/Cards.json');
-        this.load.json('Avatar', '/static/images/avatar.json');
+        // this.load.json('Cards', '/static/images/Cards.json');
+        // this.load.json('Avatar', '/static/images/avatar.json');
+        this.load.json('Resource', '/static/images/Resource.json');
         this.cardSound = [this.add.audio('sndCard1'), this.add.audio('sndCard2'), this.add.audio('sndCard3')];
         this.cardSound.shuffle();
         this.chipSound = [
             this.add.audio('sndChip1'),
             this.add.audio('sndChip2'),
             this.add.audio('sndChip3'),
-            this.add.audio('sndChip4'),
-            this.add.audio('sndChip5'),
-            this.add.audio('sndChip6'),
+            // this.add.audio('sndChip4'),
+            // this.add.audio('sndChip5'),
+            // this.add.audio('sndChip6'),
         ];
         this.chipSound.shuffle();
         this.buttonAudio = this.add.audio('sndClick');
@@ -23,51 +24,35 @@ MyGame.Game.prototype = {
 
     create: function () {
         console.log('Game state');
-        // //顶部背景
-        // this.add.sprite(0, 70, 'gameBackGround');
-        // // 左侧窗帘
-        // this.add.sprite(0, 70, 'curtain');
-        // // 右侧窗帘 左侧窗帘反转
-        // var curtain2 = this.add.sprite(644, 70, 'curtain');
-        // curtain2.width = -curtain2.width;
-        // //底部背景牌桌
-        // this.add.sprite(0, 275, 'gameTableGreen');
-        // // 公牌河牌区
-        // var center1 = this.add.sprite(this.game.width / 2, 450, 'gameTableCenter');
-        // center1.anchor.setTo(0.5);
-        // // 手牌区
-        // var center2 = this.add.sprite(this.game.width / 2, 800, 'gameTableCenter');
-        // center2.anchor.setTo(0.5);
-        // pokers
+        let Resource = this.cache.getJSON('Resource');
+        // console.log(Resource);
 
         // 背景
+        this.add.sprite(0, 0, 'Resource', 'Table/gameBackGround');
+        this.cards = [];
 
-        this.add.sprite(0, 0, 'gameBackGround');
+        // // 手牌1
+        // let hand1 = {};
+        // hand1.card = this.add.sprite(563, 387, 'Resource', 'CardsBack/cardBack_blue1');
+        // hand1.card.anchor.setTo(0.5);
+        // hand1.card.scale = {x: 0.4, y: 0.4};
+        // hand1.timeContinue = 50;
+        // hand1.moveTo = -30;
+        //
+        // // 手牌2
+        // let hand2 = {};
+        // hand2.card = this.add.sprite(563, 387, 'Resource', 'CardsBack/cardBack_blue1');
+        // hand2.card.anchor.setTo(0.5);
+        // hand2.card.scale = {x: 0.4, y: 0.4};
+        // hand2.timeContinue = 50;
+        // hand2.moveTo = 35;
 
-        // var pokers = this.add.sprite(520, 327, 'pokersBackGreen');
-
-        // 手牌1
-        var hand1 = {};
-        hand1.card = this.add.sprite(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
-        hand1.card.anchor.setTo(0.5);
-        hand1.card.scale = {x: 0.4, y: 0.4};
-        hand1.timeContinue = 50;
-        hand1.moveTo = -30;
-
-        // 手牌2
-        var hand2 = {};
-        hand2.card = this.add.sprite(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
-        hand2.card.anchor.setTo(0.5);
-        hand2.card.scale = {x: 0.4, y: 0.4};
-        hand2.timeContinue = 50;
-        hand2.moveTo = 35;
-
-        // 手牌计数器
-        this.handCardNumber = 0;
-        // 手牌动画计时器
-        this.timerHandPoker = this.time.create(false);
-        this.timerHandPoker.add(hand1.timeContinue, this.handPlace, this, hand1, this.timerHandPoker, hand2);
-        this.timerHandPoker.start();
+        // // 手牌计数器
+        // this.handCardNumber = 0;
+        // // 手牌动画计时器
+        // this.timerHandPoker = this.time.create(false);
+        // this.timerHandPoker.add(hand1.timeContinue, this.handPlace, this, hand1, this.timerHandPoker, hand2);
+        // this.timerHandPoker.start();
 
 
         // // 牌精灵
@@ -87,11 +72,13 @@ MyGame.Game.prototype = {
         // this.cards.events.onInputDown.add(this.filpTween, this, 'filpHollow');
 
         // load json card info
-        var cards = this.cache.getJSON('Cards');
+        // var cards = this.cache.getJSON('Cards');
         // 取52个出来
-        var result = Object.keys(cards.frames).slice(0, 53);
+        var result = Object.keys(Resource.frames).slice(18, 70);
+        // console.log(result);
         // 洗牌
         this.result2 = result.shuffle();
+        // console.log(this.result2);
 
         // 去菜单场景
         // this.input.onTap.add(this.goMenue, this);
@@ -136,14 +123,16 @@ MyGame.Game.prototype = {
         // this.chipBlackNum.chip.data = {number: 100, color: 'chipSMblack'};
 
         // 底牌
-        let cardBackY=250;
-        for(let i =0; i< 53; i++){
-            let cardBack = this.add.sprite(315, cardBackY, 'Cards', 'CardsBack/cardBack_blue2');
+        let cardBackY=300;
+        for(let i =0; i< 52; i++){
+            let cardBack = this.add.sprite(375, cardBackY, 'Resource', 'CardsBack/cardBack_blue2');
             cardBack.anchor.setTo(0.5);
             cardBack.scale = {x:0.45, y:0.45};
             cardBackY -= 0.2;
+            this.cards.push(cardBack);
         }
 
+        // console.log(this.cards);
 
         for (let i = 0; i < this.groupChipNum.length; i++) {
             let chip = this.groupChipNum.children[i];
@@ -158,34 +147,34 @@ MyGame.Game.prototype = {
         }
 
 
-        //potBar
-        this.potBar = this.add.sprite(this.game.width / 2, 340, 'accountBar');
-        this.potBar.anchor.setTo(0.5);
-        // console.log(this.potBar.width);
-        // console.log(this.potBar.height);
-        this.potMoney = this.add.text(this.game.width / 2, 340, 0, {
-            // font: "30px Arial",
-            fill: "#ffffff"
-        });
-        // this.potMoney = this.add.text(this.potBar.width / 2, this.potBar.height/2, 0, {
+        // //potBar
+        // this.potBar = this.add.sprite(this.game.width / 2, 340, 'accountBar');
+        // this.potBar.anchor.setTo(0.5);
+        // // console.log(this.potBar.width);
+        // // console.log(this.potBar.height);
+        // this.potMoney = this.add.text(this.game.width / 2, 340, 0, {
         //     // font: "30px Arial",
         //     fill: "#ffffff"
         // });
-
-        this.potMoney.anchor.setTo(0.5);
-        // this.potBar.addChild(this.potMoney);
+        // // this.potMoney = this.add.text(this.potBar.width / 2, this.potBar.height/2, 0, {
+        // //     // font: "30px Arial",
+        // //     fill: "#ffffff"
+        // // });
+        //
+        // this.potMoney.anchor.setTo(0.5);
+        // // this.potBar.addChild(this.potMoney);
 
 
         // flop card
         this.timerFlop = this.time.create(false);
         this.counterFlop = [0];
-        this.flop1 = this.groupFlop.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.flop1 = this.groupFlop.create(563, 387, 'Resource', 'CardsBack/cardBack_blue1');
         this.flop1.moveTo = {x: 120, y: 500};
 
-        this.flop2 = this.groupFlop.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.flop2 = this.groupFlop.create(563, 387, 'Resource', 'CardsBack/cardBack_blue1');
         this.flop2.moveTo = {x: 220, y: 500};
 
-        this.flop3 = this.groupFlop.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.flop3 = this.groupFlop.create(563, 387, 'Resource', 'CardsBack/cardBack_blue1');
         this.flop3.moveTo = {x: 320, y: 500};
 
         this.flopShowStatus = false;
@@ -230,12 +219,12 @@ MyGame.Game.prototype = {
         //     button.inputEnabled = false;
         // }
 
-        this.turn = this.groupTurn.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.turn = this.groupTurn.create(563, 387, 'Resource', 'CardsBack/cardBack_blue1');
         this.turn.anchor.setTo(0.5);
         this.turn.scale = {x: 0.5, y: 0.5};
         this.turn.moveTo = {x: 420, y: 500};
 
-        this.river = this.groupRiver.create(563, 387, 'Cards', 'CardsBack/cardBack_blue1');
+        this.river = this.groupRiver.create(563, 387, 'Resource', 'CardsBack/cardBack_blue1');
         this.river.anchor.setTo(0.5);
         this.river.scale = {x: 0.5, y: 0.5};
         this.river.moveTo = {x: 520, y: 500};
@@ -243,23 +232,23 @@ MyGame.Game.prototype = {
 
         // this.Avater = this.groupAvater.create(0, 0, 'Avater', 'avater/avater9');
         // this.Avater.scale ={x:0.3,y:0.3};
-        let avt = this.cache.getJSON('Avatar');
+        // let avt = this.cache.getJSON('Avatar');
         // console.log(avt.frames);
-        let avtRst = Object.keys(avt.frames).slice(0, 16);
+        let avtRst = Object.keys(Resource.frames).slice(0, 16);
         // console.log(avtRst);
         this.avatars = avtRst.shuffle();
         // console.log(this.avatars);
         // 座位mark位置
-        let avtMarkPos = [{x: 10, y: 630}, {x: 10, y: 430}, {x: 10, y: 230}, {x: 180, y: 30}, {x: 350, y: 30},
-            {x: 520, y: 230}, {x: 520, y: 430}, {x: 520, y: 630}, {x: 265, y: 800}];
+        let avtMarkPos = [{x: 10, y: 720}, {x: 10, y: 490}, {x: 10, y: 260}, {x: 220, y: 30}, {x: 430, y: 30},
+            {x: 640, y: 260}, {x: 640, y: 490}, {x: 640, y: 720}, {x: 325, y: 900}];
         // 头像位置
         let avtPos = [{x: 65, y: 250}, {x: 65, y: 550}, {x: 65, y: 850}, {x: 400, y: 100}, {x: 400, y: 200},
             {x: 400, y: 300}];
         // 随机名字
         let TempUsers = ['张三', '李四', '王五', '赵六', '老湿', '叫兽', '砖家', '蜀黍', '超人'].shuffle();
         // dealer位置
-        let avtDealerPos=[{dx:110, dy:630},{dx:110, dy:430},{dx:110, dy:230},{dx:110, dy:630},{dx:230, dy:180},
-            {dx:500, dy:230},{dx:500, dy:430},{dx:500, dy:630},{dx:265, dy:760}];
+        // let avtDealerPos=[{dx:110, dy:630},{dx:110, dy:430},{dx:110, dy:230},{dx:110, dy:630},{dx:230, dy:180},
+        //     {dx:500, dy:230},{dx:500, dy:430},{dx:500, dy:630},{dx:265, dy:760}];
         // 手牌位置
         let handPos =[{x1:110,y1:705,x2:121,y2:703.5},{x1:110,y1:505,x2:121,y2:503.5},{x1:110,y1:305,x2:121,y2:303.5},
         {x1:280,y1:105,x2:291,y2:103.5},{x1:450,y1:105,x2:461,y2:103.5},
@@ -287,9 +276,9 @@ MyGame.Game.prototype = {
         // 循环创建座位
         for (let i = 0; i < avtMarkPos.length; i++) {
             // 头像阴影
-            let avatarMark = this.groupSeat.create(avtMarkPos[i].x, avtMarkPos[i].y, 'avatarMark');
+            let avatarMark = this.groupSeat.create(avtMarkPos[i].x, avtMarkPos[i].y, 'Resource', 'Avatar/avatarMark');
             // 头像
-            let avatar = this.groupAvatar.create(avatarMark.width / 2, avatarMark.height / 2, 'Avatar', this.avatars.shift());
+            let avatar = this.groupAvatar.create(5, 30, 'Resource', this.avatars.shift());
             // 手牌位置
             let handWidth = avatarMark.width;
             //  座位567 手牌放左侧
@@ -298,13 +287,15 @@ MyGame.Game.prototype = {
 
             }
             // 手牌1
-            let hand1 = this.groupSeat.create(handWidth, avatarMark.height/2, 'Cards', 'CardsBack/cardBack_blue2');
+            let hand1 = this.groupSeat.create(handWidth, avatarMark.height/2, 'Resource', 'CardsBack/cardBack_blue2');
             hand1.scale={x:0.2, y:0.2};
             hand1.anchor.setTo(0.5);
+            hand1.visible = false;
             // 手牌2
-            let hand2 = this.groupAvatar.create(handWidth + 11, avatarMark.height/2 - 1.5, 'Cards', 'CardsBack/cardBack_blue2');
+            let hand2 = this.groupAvatar.create(handWidth + 11, avatarMark.height/2 - 1.5, 'Resource', 'CardsBack/cardBack_blue2');
             hand2.scale={x:0.2, y:0.2};
             hand2.anchor.setTo(0.5);
+            hand2.visible = false;
             // 手牌2 倾斜
             hand2.angle = 10;
 
@@ -317,7 +308,7 @@ MyGame.Game.prototype = {
                     width = -30
                 }
                 // console.log(width);
-                let dealer = this.groupAvatar.create(width, 0, 'Dealer');
+                let dealer = this.groupAvatar.create(width, 0, 'Resource','Chips/chipDealer');
                 dealer.scale = {x:0.25, y:0.25};
                 avatarMark.addChild(dealer);
             }
@@ -332,7 +323,7 @@ MyGame.Game.prototype = {
                 fill: "#ffffff"
             });
             // 设置居中
-            avatar.anchor.setTo(0.5);
+            // avatar.anchor.setTo(0.5);
             userName.anchor.setTo(0.5);
             Money.anchor.setTo(0.5);
 
@@ -345,7 +336,6 @@ MyGame.Game.prototype = {
             // 加入座位数组
             this.seats.push(avatarMark);
         }
-        console.log(this.seats);
         // console.log(this.seats);
         // this.dealer = this.add.sprite(110, 230, 'Dealer');
         // this.smallBlind = this.add.sprite(230,200,'SmallBlind');
@@ -356,8 +346,26 @@ MyGame.Game.prototype = {
         // this.smallBlind.anchor.setTo(0.5);
         // this.bigBlind.scale={x:0.35, y:0.35};
         // this.bigBlind.anchor.setTo(0.5);
+        // this.seats[0].children[3].visible=false;
+        // this.seats[0].children[4].visible=false;
 
+        // this.card1 = this.add.sprite(375, cardBackY, 'Resource', 'CardsBack/cardBack_blue2');
+        // this.card1.anchor.setTo(0.5);
+        // this.card1.scale = {x:0.45,y:0.45};
+        // this.card2 = this.add.sprite(375, cardBackY, 'Resource', 'CardsBack/cardBack_blue2');
+        // this.card2.anchor.setTo(0.5);
+        // this.card2.scale = {x:0.45,y:0.45};
 
+        // 手牌计数器
+        this.handDealCounter = [0];
+        // 手牌动画计时器
+        this.handDealTimer = this.time.create(false);
+        this.handDealTimer.add(500, this.handDeal, this, this.cards, this.seats, this.handDealTimer, this.handDealCounter);
+        this.handDealTimer.start();
+
+        // for(let i=0;i<this.seats.length;i++) {
+        //     this.handDeal(this.card2, this.seats[i]);
+        // }
     },
 
     update: function () {
@@ -389,6 +397,32 @@ MyGame.Game.prototype = {
     //     }, this)
     //
     // },
+
+    handDeal:function(card, seat, timer, counter){
+        let poker = card.pop();
+        if(seat.length > counter[0]+1) {
+            // 抽取动画
+            let tween1 = this.add.tween(poker).to({x: 345, y: 270}, 200, Phaser.Easing.Linear.None);
+            // 下发动画
+            let tween2 = this.add.tween(poker).to({
+                x: seat[counter[0]].position.x + 50,
+                y: seat[counter[0]].position.y + 75
+            }, 300, Phaser.Easing.Linear.None);
+
+            tween1.onComplete.add(function () {
+                tween2.onComplete.add(function () {
+                    poker.destroy();
+                    seat[counter[0]].children[3].visible = true;
+                    console.log(seat[counter[0]]);
+                }, this);
+                tween2.start()
+            }, this);
+            tween1.start();
+            counter[0]++;
+            timer.add(500, this.handDeal, this, card, seat, timer, counter);
+            timer.start();
+        }
+    },
 
     handPlace: function (hand, timer, nextCard) {
         // 抽取动画

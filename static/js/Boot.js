@@ -18,13 +18,14 @@ MyGame.Boot.prototype = {
         // this.scale.setScreenSize = true;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
+        // this.game.time.desiredFps = 60;
 
         // logo 展示可以放到 preload 场景
         // this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'dizhu');
         // this.logo.anchor.setTo(0.5, 0.5);
 
         //physics system for movement
-        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+        // this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
 
         // this.state.start('Preload');
